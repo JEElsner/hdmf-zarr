@@ -52,6 +52,15 @@ SPEC_LOC_ATTR = '.specloc'
 
 
 class ZarrIO(HDMFIO):
+    
+    @staticmethod
+    def can_read(path):
+        try:
+            # TODO: how to use storage_options? Maybe easier to just check for ".zarr" suffix
+            zarr.open(path, mode="r")
+            return True
+        except Exception:
+            return False
 
     @docval({'name': 'path', 'type': str, 'doc': 'the path to the Zarr file'},
             {'name': 'manager', 'type': BuildManager, 'doc': 'the BuildManager to use for I/O', 'default': None},
